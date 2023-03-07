@@ -3,7 +3,7 @@ public class aksiLampu {
       // membuat objek 
         Lampu lampuTidur = new Lampu();
 
-        System.out.println();
+        System.out.println("====");
 
         // menyalakan lampu
         lampuTidur.nyalakanLampu();
@@ -13,7 +13,7 @@ public class aksiLampu {
         lampuTidur.matikanLampu();
         System.out.println("Apakah lampu menyala? "+ lampuTidur.nyala);
 
-        System.out.println();
+        System.out.println("=====");
 
     }
 }
