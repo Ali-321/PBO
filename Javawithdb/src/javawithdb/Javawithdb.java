@@ -1,8 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
-package javawithdb;
 import java.sql.*;
 import java.util.Scanner;
 /**
@@ -14,6 +9,7 @@ public class Javawithdb {
     static final String DB_URL = "jdbc:mysql://127.0.0.1/Penjualan";
     static final String USER ="root";
     static final String PASS = "";
+    static Scanner sc = new Scanner(System.in);
     
     
     static Connection conn;
@@ -28,8 +24,10 @@ public class Javawithdb {
         
         
         connect();
-        insert();
-        show();
+        //insert();
+        //show();
+        //update();
+        delete();
         
     }
     
@@ -66,7 +64,7 @@ public class Javawithdb {
     }
     
     public static void insert(){
-    Scanner sc = new Scanner(System.in);
+   
     System.out.print("Masukan Kode Barang: ");
     String kode_brg = sc.nextLine();
     System.out.print("Masukan Nama Barang: ");
@@ -76,14 +74,14 @@ public class Javawithdb {
     System.out.print("Masukan stok barang: ");
     int stok_brg = sc.nextInt();
     System.out.print("Masukan minimal Barang: ");
-    int stok_min = sc.nextInt();
+    int stok_min = sc.nextInt();    
     
     try{
-        Class.forName("JDBC_DRIVER");
+        Class.forName(JDBC_DRIVER);
          conn = DriverManager.getConnection(DB_URL,USER,PASS);
          stmt = conn.createStatement();
          
-         String sql = "INSERT INTO barang (kd_brg,nm_brg,satuan,stok_brg,stok_min) Values (?,?,?,?,?)";
+         String sql = "INSERT INTO barang (kd_brg,nm_brg,satuan,stok_brg,stok_min) VALUES (?, ?, ?, ?, ?)";
          PreparedStatement pa = conn.prepareStatement(sql);
          
          pa.setString(1, kode_brg);
@@ -92,8 +90,8 @@ public class Javawithdb {
          pa.setInt(4, stok_brg);
          pa.setInt(5, stok_min);
          pa.execute();
-         stmt.close();
-         conn.close();
+
+       
          
     }catch(Exception e){
         e.printStackTrace();
@@ -101,4 +99,66 @@ public class Javawithdb {
     
     
     }
+
+
+    public static void update(){
+        System.out.print("no Barang: ");
+        int no_barang = sc.nextInt();   
+        sc.nextLine(); 
+            System.out.print("Update Kode Barang: ");
+            String kode_brg = sc.nextLine();
+            System.out.print("Update Nama Barang: ");
+            String nama_brg = sc.nextLine();
+            System.out.print("Update Satuan: ");
+            String satuan = sc.nextLine();
+            System.out.print("Update stok barang: ");
+            int stok_brg = sc.nextInt();
+            System.out.print("Update minimal Barang: ");
+            int stok_min = sc.nextInt();
+           
+            
+
+
+        try{
+            Class.forName(JDBC_DRIVER);
+             conn = DriverManager.getConnection(DB_URL,USER,PASS);
+             stmt = conn.createStatement();
+             
+             String sql = "UPDATE barang SET kd_brg = ?, nm_brg = ?, satuan = ?, stok_brg = ?, stok_min = ?  WHERE no_brg = ?";
+             PreparedStatement pa = conn.prepareStatement(sql);
+             pa.setString(1, kode_brg);
+             pa.setString(2, nama_brg);
+             pa.setString(3, satuan);
+             pa.setInt(4, stok_brg);
+             pa.setInt(5, stok_min);
+             pa.setInt(6, no_barang);
+             pa.executeUpdate();
+           
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        
+        
+    }
+
+   public static void delete(){
+    System.out.print("no Barang: ");
+     int no_barang = sc.nextInt();   
+    try{
+        Class.forName(JDBC_DRIVER);
+         conn = DriverManager.getConnection(DB_URL,USER,PASS);
+         stmt = conn.createStatement();
+         
+         String sql = "DELETE FROM barang WHERE no_brg = ?";
+         PreparedStatement pa = conn.prepareStatement(sql);
+         pa.setInt(1,no_barang);
+         pa.executeUpdate();
+       
+    }catch(Exception e){
+        e.printStackTrace();
+    }
+    
+
+   }
+
 }
